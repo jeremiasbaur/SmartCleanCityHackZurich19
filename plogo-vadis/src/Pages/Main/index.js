@@ -35,7 +35,12 @@ class MainPage extends PureComponent {
             <div className="box">
                 <Link
                     className="btn btn-white btn-animation-1"
-                    to='/go'
+                    to={{
+                        pathname: '/go',
+                        state: {
+                            distance: distance
+                        }
+                    }}
                 >Go!</Link>
             </div>
 
