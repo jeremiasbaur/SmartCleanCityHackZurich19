@@ -7,6 +7,9 @@ import Marker from 'pigeon-marker';
 import 'react-rangeslider/lib/index.css'
 
 const TECHNOPARK_COORDS = [47.389274, 8.51553];
+const MAX_ZOOM = 18;
+const MIN_ZOOM = 1;
+const DEFAULT_ZOOM = 12;
 
 const Circle = ({
   mapState: { width, height },
@@ -23,7 +26,7 @@ const Circle = ({
 
   return (
     <svg width={width} height={height} style={{ top: 0, left: 0, position: 'absolute' }}>
-        <circle cx={pixel[0]} cy={pixel[1]} r={"" + (radius * 20)} style={style} />
+        <circle cx={pixel[0]} cy={pixel[1]} r={"" + radius} style={style} />
     </svg>
   )
 }
@@ -33,7 +36,7 @@ class PlogMap extends PureComponent {
     super(props);
 
     this.state = {
-      zoomLevel: 12,
+      zoomLevel: DEFAULT_ZOOM,
       acquiredLocation: false,
       coordinates: props.coordinates ? props.coordinates : TECHNOPARK_COORDS
     };
@@ -51,21 +54,46 @@ class PlogMap extends PureComponent {
   onMapEvent(data) {
     const { zoom } = data;
 
+    const clampedZoom = Math.min(Math.max(zoom, MIN_ZOOM), MAX_ZOOM);
+
     this.setState({
-      zoomLevel: zoom
+      zoomLevel: clampedZoom
     });
   }
 
-  render() {
+  changeZoom(change) {
+    this.setState({
+      zoomLevel: this.state.zoomLevel + change
+    });
+  }
+
+  calcRadius() {
     const { distance = 1} = this.props;
+    const {
+      coordinates,
+      zoomLevel
+    } = this.state;
+    const toDegrees = (angle) => {
+      return angle * (180 / Math.PI);
+    };
+
+    const earthCircumference = 40075.016686;
+    const Stile = earthCircumference * Math.cos(toDegrees(coordinates[0])) / Math.pow(2, zoomLevel);
+
+    // distance per pixel in KM
+    const distPerPx = Stile / 256;
+
+    const radius = (distance / 2) * (1 / distPerPx);
+
+    return radius;
+  }
+
+  render() {
     const {
       acquiredLocation,
       coordinates,
       zoomLevel
     } = this.state;
-
-    // TODO: figure out how to get from "km" to radius depending on the zoom level
-    const radius = (distance / 2) * (zoomLevel * .4);
 
     return (
       <div className="map-container">
@@ -75,10 +103,21 @@ class PlogMap extends PureComponent {
           </button>
         )}
 
-        <Map center={coordinates} zoom={12} width={600} height={400} onBoundsChanged={(newData) => this.onMapEvent(newData)}>
+          <button onClick={() => this.changeZoom(1)}>Zoom in</button>
+          <button onClick={() => this.changeZoom(-1)}>Zoom out</button>
+
+        <Map
+          center={coordinates}
+          zoom={zoomLevel}
+          width={600}
+          height={400}
+          onBoundsChanged={(newData) => this.onMapEvent(newData)}
+          minZoom={MIN_ZOOM}
+          maxZoom={MAX_ZOOM}
+        >
           <Marker anchor={coordinates} payload={1} onClick={({ event, anchor, payload }) => {}} />
 
-          <Circle centerCoords={coordinates} radius={radius} />
+          <Circle centerCoords={coordinates} radius={this.calcRadius()} />
         </Map>
       </div>
     );
