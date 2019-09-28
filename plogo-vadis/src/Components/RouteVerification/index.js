@@ -16,6 +16,16 @@ class RouteVerification extends PureComponent {
         };
     }
 
+    removeUnverifiedRoute(routeToRemove) {
+        const filteredRoutes = this.state.routes.filter(route => route !== routeToRemove);
+
+        localStorage.setItem(LOCALSTORAGE_KEY_UNVERIFIED_ROUTES, JSON.stringify(filteredRoutes));
+
+        this.setState({
+            routes: filteredRoutes
+        });
+    }
+
     render() {
         const { routes } = this.state;
 
@@ -29,8 +39,12 @@ class RouteVerification extends PureComponent {
                 <p>Hey, you've been on these routes before, care to quickly give some feedback?</p>
                 <ul>
                     {routes.map(route => 
-                        <UnverifiedRoute key={route.confirmed} route={route} />
-                        )}
+                        <UnverifiedRoute
+                            key={route.confirmed}
+                            route={route}
+                            onDismissRoute={() => this.removeUnverifiedRoute(route)}
+                        />
+                    )}
                 </ul>
             </Fragment>
         );
@@ -39,7 +53,7 @@ class RouteVerification extends PureComponent {
 
 class UnverifiedRoute extends PureComponent {
     render () {
-        const { route } = this.props;
+        const { route, onDismissRoute = () => {} } = this.props;
 
         return (
             <li>
@@ -47,6 +61,7 @@ class UnverifiedRoute extends PureComponent {
                 <button>Too dirty!</button>
                 <button>Just right</button>
                 <button>Cleaner than expected</button>
+                <button onClick={() => onDismissRoute(route)}>Dismiss</button>
             </li>
         );
     }
@@ -54,6 +69,5 @@ class UnverifiedRoute extends PureComponent {
 
 RouteVerification.propTypes = {
 };
-
 
 export default RouteVerification;

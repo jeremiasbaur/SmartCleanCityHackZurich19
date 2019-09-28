@@ -41,7 +41,7 @@ class MapPage extends PureComponent {
       isLoadingRoute: true,
       routeAccepted: false
     }, () => {
-      fetch(BACKEND_URL + `?radius=${ distance/2 }&long=${ long }&lat=${ lat }&refresh=${ refresh }`)
+      fetch(BACKEND_URL + `?distance=${ distance }&long=${ long }&lat=${ lat }&refresh=${ refresh }`)
         .then(response => response.json())
         .then(data => this.setState({
           route: data.route ? data.route : null,
