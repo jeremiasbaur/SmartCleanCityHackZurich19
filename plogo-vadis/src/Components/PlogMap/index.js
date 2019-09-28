@@ -54,7 +54,12 @@ class PlogMap extends PureComponent {
   }
   
   onMapEvent(data) {
-    const { zoom } = data;
+    const { zoom, initial } = data;
+
+    // ignore initial callback
+    if (initial) {
+      return false;
+    }
 
     const clampedZoom = Math.min(Math.max(zoom, MIN_ZOOM), MAX_ZOOM);
 
@@ -71,8 +76,8 @@ class PlogMap extends PureComponent {
 
   calcRadius() {
     const {
-      distance = 1,
-      coordinates = TECHNOPARK_COORDS
+      distance,
+      coordinates
     } = this.props;
     const { zoomLevel} = this.state;
     const toDegrees = (angle) => {
@@ -80,7 +85,8 @@ class PlogMap extends PureComponent {
     };
 
     const earthCircumference = 40075.016686;
-    const Stile = earthCircumference * Math.cos(toDegrees(coordinates[0])) / Math.pow(2, zoomLevel);
+    // for some reason using the actual coordinates gets very weird real quick - use hardcoded coordinates for now
+    const Stile = earthCircumference * Math.cos(toDegrees(TECHNOPARK_COORDS[0])) / Math.pow(2, zoomLevel);
 
     // distance per pixel in KM
     const distPerPx = Stile / 256;
@@ -116,8 +122,9 @@ class PlogMap extends PureComponent {
           onBoundsChanged={(newData) => this.onMapEvent(newData)}
           minZoom={MIN_ZOOM}
           maxZoom={MAX_ZOOM}
+          onClick={(event) => this.props.onCoordsChange(event.latLng)}
         >
-          <Marker anchor={coordinates} payload={1} onClick={({ event, anchor, payload }) => {}} />
+          <Marker anchor={coordinates} payload={1} />
 
           <Circle centerCoords={coordinates} radius={this.calcRadius()} />
         </Map>

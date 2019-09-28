@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import MainPage from './Pages/Main/';
 import MapPage from './Pages/Map/';
+import RouteVerification from './Components/RouteVerification';
+
 import './App.css';
 
 function App() {
@@ -21,7 +23,9 @@ function App() {
               <MainPage />
             </Route>
           </Switch>
-          </main>
+
+          <RouteVerification />
+        </main>
       </div>
     </Router>
   );
