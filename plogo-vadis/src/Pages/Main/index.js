@@ -8,7 +8,7 @@ import './index.css';
 import PlogMap, { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 
 export const CARD_STYLE = {"marginBottom": "24px"};
-export const CARD_HEAD_STYLE = {"fontSize": "24px", "lineHeight": "1"};
+export const CARD_HEAD_STYLE = {"fontSize": "24px", "lineHeight": "1", "textAlign": "center"};
 
 class MainPage extends PureComponent {
 

@@ -15,14 +15,13 @@ function App() {
       <div className="App">
         <PageHeader title="Plogo Vadis?" />
         
-        <main className="main-container">
-          <FirstTimeExplanation />
-          
+        <main className="main-container">  
           <Switch>
             <Route path="/go">
               <MapPage />
             </Route>
             <Route path="/">
+              <FirstTimeExplanation />
               <MainPage />
             </Route>
           </Switch>
