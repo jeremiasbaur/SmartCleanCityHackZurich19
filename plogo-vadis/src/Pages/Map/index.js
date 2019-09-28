@@ -25,6 +25,45 @@ const CLEANLINESS_LEVEL_ADDITIONAL_BLURB =  [
   "✨"
 ];
 
+const createFakeRoute = (coordinates) => {
+  let getRandomNrBetween = (min, max) => { // min and max included 
+        return Math.random() * (max - min + 1) + min;
+      },
+      jiggle = (original, factor) => {return original * (1 + getRandomNrBetween(-10, 11)/factor)};
+      
+
+  const nrOfCoordinates = Math.floor(Math.random()*20 + 3);
+  let route = [coordinates];
+
+  for(let i = 0; i < nrOfCoordinates; i++) {
+    route.push([jiggle(coordinates[0], 15000), jiggle(coordinates[1], 3000)]);
+  }
+  route.push(coordinates);
+
+  return route;
+};
+
+const Line = ({ mapState: { width, height }, latLngToPixel, coordsArray, style = { stroke: 'rgb(255,0,0)', strokeWidth: 2, fill: 'none' } }) => {
+  if (coordsArray.length < 2) {
+    return null
+  }
+
+  let lines = []
+  let pixel = latLngToPixel(coordsArray[0])
+
+  for (let i = 1; i < coordsArray.length; i++) {
+    let pixel2 = latLngToPixel(coordsArray[i])
+    lines.push(<line key={i} x1={pixel[0]} y1={pixel[1]} x2={pixel2[0]} y2={pixel2[1]} style={style} />)
+    pixel = pixel2
+  }
+
+  return (
+    <svg width={width} height={height} style={{ top: 0, left: 0 }}>
+      {lines}
+    </svg>
+  )
+}
+
 class MapPage extends PureComponent {
 
   constructor(props) {
@@ -108,10 +147,12 @@ class MapPage extends PureComponent {
     const { latitude, longitude } = this.getParameters();
     const {
       isLoadingRoute,
-      route,
+      //route,
       expectedCleanliness,
       routeAccepted
     } = this.state;
+
+    const route = createFakeRoute([latitude, longitude]);
 
     return (
         <Fragment>
@@ -130,6 +171,7 @@ class MapPage extends PureComponent {
                   zoom={12}
                 >
                   <Marker anchor={[latitude, longitude]} payload={1} />
+                  <Line coordsArray={route} />
                 </Map>
               
                 <p style={{"marginTop": "8px", "marginBottom": "16px"}}>We expect the route to be <span style={{"fontWeight": "bold"}}>{CLEANLINESS_LEVELS[Math.floor(expectedCleanliness)]}</span>. {CLEANLINESS_LEVEL_ADDITIONAL_BLURB[Math.floor(expectedCleanliness)]}</p>
