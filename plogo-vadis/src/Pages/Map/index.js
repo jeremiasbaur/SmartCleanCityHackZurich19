@@ -1,8 +1,8 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import { withRouter } from 'react-router-dom';
 import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 
-const BACKEND_URL = 'https://loldunnoyet.com/getRoute?';
+const BACKEND_URL = 'http://fakerestapi.azurewebsites.net';
 
 class MapPage extends PureComponent {
 
@@ -19,22 +19,22 @@ class MapPage extends PureComponent {
     this.getRoute();
   }
 
-  getRoute() {
+  getRoute(options = {}) {
     const {
       distance,
       lat,
       long
-    } = (this.getParameters());
+    } = this.getParameters();
+    const { refresh = false} = options;
 
     this.setState({
       isLoadingRoute: true
     }, () => {
-      fetch(BACKEND_URL + `?distance=${ distance }&long=${ long }&lat=${ lat }`)
+      fetch(BACKEND_URL + `?distance=${ distance }&long=${ long }&lat=${ lat }&refresh=${ refresh }`)
         .then(response => response.json())
-        .then(data => this.setState({
-          isLoadingRoute: false,
-          route: data.route
-        }));
+        .then(data => this.setState({ route: data.route ? data.route : null }))
+        .catch((e) => console.error(e))
+        .finally(() => this.setState({ isLoadingRoute: false }));
     })
   }
 
@@ -60,14 +60,19 @@ class MapPage extends PureComponent {
 
   render() {
     const { distance, lat, lang } = this.getParameters();
-    const { isLoadingRoute } = this.state;
-
-    if (isLoadingRoute) {
-      return (<p>Loading route...</p>);
-    }
+    const { isLoadingRoute, route } = this.state;
 
     return (
-        <p>map page</p>
+        <Fragment>
+          <h1>Get ready!</h1>
+
+          { isLoadingRoute ? (
+            <p>Loading route...</p>
+          ) : (
+            <p>Route: {route}</p>
+          )}
+          <button onClick={() => this.getRoute({refresh: true})}>Get another route</button>
+        </Fragment>
     );
   }
 }
