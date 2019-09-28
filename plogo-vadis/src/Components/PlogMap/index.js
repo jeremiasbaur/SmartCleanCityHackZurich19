@@ -6,7 +6,7 @@ import Marker from 'pigeon-marker';
 
 import 'react-rangeslider/lib/index.css'
 
-const TECHNOPARK_COORDS = [47.389274, 8.51553];
+export const TECHNOPARK_COORDS = [47.389274, 8.51553];
 const MAX_ZOOM = 18;
 const MIN_ZOOM = 1;
 const DEFAULT_ZOOM = 12;
@@ -38,15 +38,17 @@ class PlogMap extends PureComponent {
     this.state = {
       zoomLevel: DEFAULT_ZOOM,
       acquiredLocation: false,
-      coordinates: props.coordinates ? props.coordinates : TECHNOPARK_COORDS
     };
   }
 
   findLocation() {
+    const { onCoordsChange = () => {}} = this.props;
+
     navigator.geolocation.getCurrentPosition((position) => {
+      onCoordsChange([position.coords.latitude, position.coords.longitude]);
+
       this.setState({
-        acquiredLocation: true,
-        coordinates: [position.coords.latitude, position.coords.longitude]
+        acquiredLocation: true
       });
     });
   }
@@ -68,11 +70,11 @@ class PlogMap extends PureComponent {
   }
 
   calcRadius() {
-    const { distance = 1} = this.props;
     const {
-      coordinates,
-      zoomLevel
-    } = this.state;
+      distance = 1,
+      coordinates = TECHNOPARK_COORDS
+    } = this.props;
+    const { zoomLevel} = this.state;
     const toDegrees = (angle) => {
       return angle * (180 / Math.PI);
     };
@@ -89,9 +91,9 @@ class PlogMap extends PureComponent {
   }
 
   render() {
+    const { coordinates } = this.props;
     const {
       acquiredLocation,
-      coordinates,
       zoomLevel
     } = this.state;
 
@@ -125,7 +127,9 @@ class PlogMap extends PureComponent {
 }
 
 PlogMap.propTypes = {
-  distance: PropTypes.number
+  coordinates: PropTypes.array,
+  distance: PropTypes.number,
+  onCoordsChange: PropTypes.func
 };
 
 

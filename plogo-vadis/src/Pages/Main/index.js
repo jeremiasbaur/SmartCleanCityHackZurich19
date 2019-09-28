@@ -4,7 +4,7 @@ import DistanceSlider from '../../Components/DistanceSlider';
 
 import './index.css';
 
-import PlogMap from '../../Components/PlogMap';
+import PlogMap, { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 
 
 class MainPage extends PureComponent {
@@ -14,11 +14,12 @@ class MainPage extends PureComponent {
 
     this.state = {
         distance: 1,
+        coordinates: TECHNOPARK_COORDS
     };
   }
 
   render() {
-    const { distance } = this.state;
+    const { distance, coordinates } = this.state;
 
     return (
         <div>
@@ -26,7 +27,11 @@ class MainPage extends PureComponent {
 
             <h3>Where are you?</h3>
 
-            <PlogMap distance={distance} />
+            <PlogMap
+                coordinates={coordinates}
+                distance={distance}
+                onCoordsChange={(newCoordinates) => this.setState({coordinates: newCoordinates})}
+            />
 
 
             <h3>How far would you like to run today?</h3>
@@ -38,7 +43,9 @@ class MainPage extends PureComponent {
                     to={{
                         pathname: '/go',
                         state: {
-                            distance: distance
+                            distance: distance,
+                            lat: coordinates[0],
+                            long: [1]
                         }
                     }}
                 >Go!</Link>
