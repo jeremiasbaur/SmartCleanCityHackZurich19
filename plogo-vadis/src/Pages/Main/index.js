@@ -16,7 +16,6 @@ class MainPage extends PureComponent {
     super(props);
 
     this.state = {
-        firstTimeVisitor: false,
         unverifiedRoutes: [],
         previousRoutes: [],
         distance: 1,
@@ -28,7 +27,6 @@ class MainPage extends PureComponent {
     const {
         distance,
         coordinates,
-        firstTimeVisitor
     } = this.state;
 
     return (
@@ -60,12 +58,6 @@ class MainPage extends PureComponent {
                     >Go!</Link>
                 </h1>
             </div>
-
-            { firstTimeVisitor && (
-                <Card style={CARD_STYLE} headStyle={CARD_HEAD_STYLE} title="What is Plogging?">
-                    <p>Plogging is a combination of jogging with picking up litter (Swedish: plocka upp). It started as an organised activity in Sweden around 2016 and spread to other countries in 2018, following increased concern about plastic pollution. As a workout, it provides variation in body movements by adding bending, squatting and stretching to the main action of running, hiking, or walking.</p>
-                </Card>
-            )}
         </div>
     );
   }

@@ -1,24 +1,15 @@
+.ant-page-header-heading-title {
+  float: none;
+  color: white;
+  padding: 0;
+}
+
 .App {
   text-align: center;
   display: flex;
   flex-direction: column;
   background-color: #2274a5;
   color: white;
-}
-
-.App-header {
-  background-color: #282c34;
-  height: 64px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #f75c03;
-}
-
-.App-link {
-  color: #09d3ac;
 }
 
 .main-container {

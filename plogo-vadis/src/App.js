@@ -7,6 +7,7 @@ import RouteVerification from './Components/RouteVerification';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './App.css';
 import { PageHeader } from 'antd';
+import FirstTimeExplanation from './Components/FirstTimeExplanation';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <PageHeader title="Plogo Vadis?" />
         
         <main className="main-container">
+          <FirstTimeExplanation />
+          
           <Switch>
             <Route path="/go">
               <MapPage />
