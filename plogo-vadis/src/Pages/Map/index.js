@@ -95,10 +95,13 @@ class MapPage extends PureComponent {
     }, () => {
       fetch(BACKEND_URL + `?distance=${ distance }&long=${ longitude }&lat=${ latitude }&refresh=${ refresh }`)
         .then(response => response.json())
-        .then(data => this.setState({
-          route: data.route ? data.route : null,
-          expectedCleanliness: data.cci = data.cci ? data.cci : Math.random()*5
-        }))
+        .then(data => {
+          console.log(data);
+          this.setState({
+            route: data.route ? data.route : null,
+            expectedCleanliness: data.cci = data.cci ? data.cci : Math.random()*5
+          });
+        })
         .catch((e) => console.error(e))
         .finally(() => this.setState({ isLoadingRoute: false }));
     })
