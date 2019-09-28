@@ -1,5 +1,5 @@
 from app import db
-from models import PlogginRoute ,GeoInfo, CleanCityIndex
+from models import Plog, GeoInfo, CleanCityIndex
 
 db.create_all()
 db.session.commit()

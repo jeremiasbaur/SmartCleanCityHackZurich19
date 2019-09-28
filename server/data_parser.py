@@ -18,6 +18,7 @@ def parse_geo_info():
         print(index)
     db.session.commit()
 
+
 def parse_measures():
     for index, row in measures.iterrows():
         if index == 0: continue
