@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import Slider from 'react-rangeslider'
 
 import 'react-rangeslider/lib/index.css'
@@ -6,23 +7,11 @@ import 'react-rangeslider/lib/index.css'
 import './index.css';
 
 class DistanceSlider extends PureComponent {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      distance: 1
-    };
-  }
-
-  handleOnChange = (value) => {
-    this.setState({
-      distance: value
-    })
-  }
-
   render() {
-    const { distance } = this.state;
+    const {
+      distance = 1,
+      onDistanceChange = () => {}
+    } = this.props;
 
     return (
         <div className="distance-slider">
@@ -30,7 +19,7 @@ class DistanceSlider extends PureComponent {
                 min={1}
                 max={21}
                 value={distance}
-                onChange={this.handleOnChange}
+                onChange={(value) => onDistanceChange(value)}
             />
             <div>{distance} km</div>
         </div>
@@ -39,6 +28,8 @@ class DistanceSlider extends PureComponent {
 }
 
 DistanceSlider.propTypes = {
+  distance: PropTypes.number,
+  onDistanceChange: PropTypes.func
 };
 
 

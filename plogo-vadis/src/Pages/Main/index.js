@@ -11,20 +11,26 @@ class MainPage extends PureComponent {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+        distance: 1,
+    };
   }
 
   render() {
+    const { distance } = this.state;
+
     return (
         <div>
             <p>main page</p>
 
             <h3>Where are you?</h3>
 
-            <PlogMap />
+            <PlogMap distance={distance} />
 
 
             <h3>How far would you like to run today?</h3>
-            <DistanceSlider />
+            <DistanceSlider distance={distance} onDistanceChange={(newDistance) => this.setState({distance: newDistance})} />
 
             <div className="box">
                 <Link

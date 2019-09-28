@@ -5,6 +5,7 @@
   "dependencies": {
     "pigeon-maps": "^0.14.0",
     "pigeon-marker": "^0.3.4",
+    "pigeon-overlay": "^0.2.3",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
     "react-icons": "^3.7.0",
