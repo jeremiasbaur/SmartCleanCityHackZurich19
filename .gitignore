@@ -187,3 +187,5 @@ fabric.properties
 .idea/modules.xml
 .idea/SmartCleanCityHackZurich19.iml
 .idea/vcs.xml
+
+server/configmodule.py
