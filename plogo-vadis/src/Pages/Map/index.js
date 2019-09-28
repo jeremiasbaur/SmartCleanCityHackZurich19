@@ -3,6 +3,13 @@ import { withRouter } from 'react-router-dom';
 import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 
 const BACKEND_URL = 'http://fakerestapi.azurewebsites.net';
+const CLEANLINESS_LEVELS =  [
+  'very dirty. Bring a wheelbarrow!',
+  'quite dirty. Bring a bigger bag!',
+  'somewhat dirty, optimal conditions!',
+  'quite clean',
+  'sqeaky clean'
+];
 
 class MapPage extends PureComponent {
 
@@ -11,7 +18,8 @@ class MapPage extends PureComponent {
 
     this.state = {
       isLoadingRoute: false,
-      route: null
+      route: null,
+      expectedCleanliness: null
     }
   }
 
@@ -32,7 +40,10 @@ class MapPage extends PureComponent {
     }, () => {
       fetch(BACKEND_URL + `?distance=${ distance }&long=${ long }&lat=${ lat }&refresh=${ refresh }`)
         .then(response => response.json())
-        .then(data => this.setState({ route: data.route ? data.route : null }))
+        .then(data => this.setState({
+          route: data.route ? data.route : null,
+          expectedCleanliness: data.cci = data.cci ? data.cci : null
+        }))
         .catch((e) => console.error(e))
         .finally(() => this.setState({ isLoadingRoute: false }));
     })
@@ -60,7 +71,10 @@ class MapPage extends PureComponent {
 
   render() {
     const { distance, lat, lang } = this.getParameters();
-    const { isLoadingRoute, route } = this.state;
+    const { isLoadingRoute, route, expectedCleanliness } = this.state;
+
+    // Dev
+    const cleanliness = expectedCleanliness ? expectedCleanliness : Math.floor(Math.random()*5);
 
     return (
         <Fragment>
@@ -69,9 +83,15 @@ class MapPage extends PureComponent {
           { isLoadingRoute ? (
             <p>Loading route...</p>
           ) : (
-            <p>Route: {route}</p>
+            <Fragment>
+              <p>Route: {route}</p>
+              <pre>map goes here</pre>
+              <p>We expect the route to be {CLEANLINESS_LEVELS[Math.floor(cleanliness)]}</p>
+            </Fragment>
           )}
+
           <button onClick={() => this.getRoute({refresh: true})}>Get another route</button>
+          
         </Fragment>
     );
   }
