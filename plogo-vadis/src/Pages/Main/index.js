@@ -7,8 +7,8 @@ import './index.css';
 
 import PlogMap, { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 
-const CARD_STYLE = {"marginBottom": "24px"};
-const CARD_HEAD_STYLE = {"fontSize": "24px", "lineHeight": "1"};
+export const CARD_STYLE = {"marginBottom": "24px"};
+export const CARD_HEAD_STYLE = {"fontSize": "24px", "lineHeight": "1"};
 
 class MainPage extends PureComponent {
 
@@ -47,17 +47,17 @@ class MainPage extends PureComponent {
 
             <div className="box">
                 <h1>
-                <Link
-                    className="btn btn-white btn-animation-1"
-                    to={{
-                        pathname: '/go',
-                        state: {
-                            distance: distance,
-                            lat: coordinates[0],
-                            long: [1]
-                        }
-                    }}
-                >Go!</Link>
+                    <Link
+                        className="btn btn-white btn-animation-1"
+                        to={{
+                            pathname: '/go',
+                            state: {
+                                distance: distance,
+                                lat: coordinates[0],
+                                long: [1]
+                            }
+                        }}
+                    >Go!</Link>
                 </h1>
             </div>
 

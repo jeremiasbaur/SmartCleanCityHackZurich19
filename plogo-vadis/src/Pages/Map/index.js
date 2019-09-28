@@ -1,17 +1,28 @@
 import React, {PureComponent, Fragment} from 'react';
 import { withRouter } from 'react-router-dom';
+import Map from 'pigeon-maps';
+import Marker from 'pigeon-marker';
 import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 import { LOCALSTORAGE_KEY_UNVERIFIED_ROUTES } from '../../Components/RouteVerification';
 
-import { Spin } from 'antd';
+import { Spin, Card, Button } from 'antd';
+
+import { CARD_STYLE, CARD_HEAD_STYLE } from '../Main';
 
 const BACKEND_URL = 'http://fakerestapi.azurewebsites.net';
 const CLEANLINESS_LEVELS =  [
-  'very dirty. Bring a wheelbarrow!',
-  'quite dirty. Bring a bigger bag!',
-  'somewhat dirty, optimal conditions!',
+  'very dirty',
+  'quite dirty',
+  'somewhat dirty',
   'quite clean',
-  'spotless! ✨'
+  'spotless'
+];
+const CLEANLINESS_LEVEL_ADDITIONAL_BLURB =  [
+  'Bring a wheelbarrow!',
+  'Bring a bigger bag!',
+  'Optimal conditions!',
+  'Concentrate on your run!',
+  "✨"
 ];
 
 class MapPage extends PureComponent {
@@ -34,8 +45,8 @@ class MapPage extends PureComponent {
   getRoute(options = {}) {
     const {
       distance,
-      lat,
-      long
+      latitude,
+      longitude
     } = this.getParameters();
     const { refresh = false } = options;
 
@@ -43,7 +54,7 @@ class MapPage extends PureComponent {
       isLoadingRoute: true,
       routeAccepted: false
     }, () => {
-      fetch(BACKEND_URL + `?distance=${ distance }&long=${ long }&lat=${ lat }&refresh=${ refresh }`)
+      fetch(BACKEND_URL + `?distance=${ distance }&long=${ longitude }&lat=${ latitude }&refresh=${ refresh }`)
         .then(response => response.json())
         .then(data => this.setState({
           route: data.route ? data.route : null,
@@ -58,16 +69,16 @@ class MapPage extends PureComponent {
     // get chosen parameters from previous page via props.location or use default value
     let parameters = {
       distance: 1,
-      lat: TECHNOPARK_COORDS[0],
-      long: TECHNOPARK_COORDS[1]
+      latitude: TECHNOPARK_COORDS[0],
+      longitude: TECHNOPARK_COORDS[1]
     };
 
     if (this.props && this.props.location && this.props.location.state) {
-      const { distance, lat, long } = this.props.location.state;
+      const { distance, latitude = parameters.latitude, longitude = parameters.longitude } = this.props.location.state;
       parameters = {
         distance: distance,
-        lat: lat,
-        long: long
+        latitude: latitude,
+        longitude: longitude
       };
     }
 
@@ -94,7 +105,7 @@ class MapPage extends PureComponent {
   }
 
   render() {
-    const { distance, lat, lang } = this.getParameters();
+    const { latitude, longitude } = this.getParameters();
     const {
       isLoadingRoute,
       route,
@@ -104,25 +115,39 @@ class MapPage extends PureComponent {
 
     return (
         <Fragment>
-          <h1>Get ready!</h1>
-
           { isLoadingRoute && (
             <Spin />
           )}
           
           { !isLoadingRoute && (
             <Fragment>
-              <p>How about this route?</p>
-              <pre>map goes here, with {distance/2}km around [{lat}, {lang}]</pre>
-              <p>We expect the route to be {CLEANLINESS_LEVELS[Math.floor(expectedCleanliness)]}</p>
-    
-              {!routeAccepted && (
-                <button onClick={() => this.confirmRoute()}>I'll take it!</button>
-              )}
+
+              <Card style={CARD_STYLE} headStyle={CARD_HEAD_STYLE} title="Get ready!">
+                <p>How about this route?</p>
+                <Map
+                  center={[latitude, longitude]}
+                  height={400}
+                  zoom={12}
+                >
+                  <Marker anchor={[latitude, longitude]} payload={1} />
+                </Map>
+              
+                <p style={{"marginTop": "8px", "marginBottom": "16px"}}>We expect the route to be <span style={{"fontWeight": "bold"}}>{CLEANLINESS_LEVELS[Math.floor(expectedCleanliness)]}</span>. {CLEANLINESS_LEVEL_ADDITIONAL_BLURB[Math.floor(expectedCleanliness)]}</p>
+
+                {!routeAccepted && (
+                  <div className="map__buttons">
+                    <Button onClick={() => this.getRoute({refresh: true})}>Get another route</Button>
+                    <Button type="primary" onClick={() => this.confirmRoute()}>I'll take it!</Button>
+                  </div>
+                )}
+
+                {routeAccepted && (
+                  <p>Go forth and clean this wretched place!</p>
+                )}
+              </Card>
+
             </Fragment>
           )}
-
-          <button onClick={() => this.getRoute({refresh: true})}>Get another route</button>
 
         </Fragment>
     );

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Map from 'pigeon-maps';
 import Marker from 'pigeon-marker';
@@ -20,7 +20,7 @@ const Circle = ({
   style = { stroke: 'rgb(255,0,0)', strokeWidth: 2, 'fill': 'none' }
 }) => {
   if (centerCoords.length !== 2) {
-    return null
+    return null;
   }
 
   let pixel = latLngToPixel(centerCoords);
@@ -77,7 +77,7 @@ class PlogMap extends PureComponent {
 
   calcRadius() {
     const {
-      distance,
+      distance = 1,
       coordinates
     } = this.props;
     const { zoomLevel} = this.state;
@@ -128,12 +128,12 @@ class PlogMap extends PureComponent {
           )}
 
           <Button.Group size="large">
-            <Button type="primary" onClick={() => this.changeZoom(-1)}>
+            <Button onClick={() => this.changeZoom(-1)}>
               <Icon type="zoom-out" />
               Zoom out
             </Button>
-            <Button type="primary" onClick={() => this.changeZoom(1)}>
-             <Icon type="zoom-in" />
+            <Button onClick={() => this.changeZoom(1)}>
+            <Icon type="zoom-in" />
               Zoom in
             </Button>
           </Button.Group>
