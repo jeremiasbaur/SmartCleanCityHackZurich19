@@ -1,0 +1,24 @@
+.map__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+@media screen and (max-width: 700px) {
+    .map__buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .map__buttons > button {
+        margin-bottom: 16px;
+    }
+
+    .map__buttons > div {
+        display: flex;
+    }
+
+    .map__buttons > div > button {
+        flex-grow: 1;
+    }
+}

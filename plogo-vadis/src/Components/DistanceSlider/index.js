@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Slider from 'react-rangeslider'
 
 import 'react-rangeslider/lib/index.css'
-
 import './index.css';
 
 class DistanceSlider extends PureComponent {
@@ -21,7 +20,7 @@ class DistanceSlider extends PureComponent {
                 value={distance}
                 onChange={(value) => onDistanceChange(value)}
             />
-            <div>{distance} km</div>
+            <h1>{distance} km</h1>
         </div>
     );
   }

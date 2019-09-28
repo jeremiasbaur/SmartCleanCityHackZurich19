@@ -1,10 +1,11 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-
 import Map from 'pigeon-maps';
 import Marker from 'pigeon-marker';
+import { Button, Icon } from 'antd';
 
 import 'react-rangeslider/lib/index.css'
+import './index.css';
 
 export const TECHNOPARK_COORDS = [47.389274, 8.51553];
 const MAX_ZOOM = 18;
@@ -105,29 +106,38 @@ class PlogMap extends PureComponent {
 
     return (
       <div className="map-container">
-        {'geolocation' in navigator && (
-          <button onClick={() => this.findLocation()}>
-            { acquiredLocation ? 'Find me again' : 'Find my location' }
-          </button>
-        )}
-
-          <button onClick={() => this.changeZoom(1)}>Zoom in</button>
-          <button onClick={() => this.changeZoom(-1)}>Zoom out</button>
-
         <Map
           center={coordinates}
           zoom={zoomLevel}
-          width={600}
           height={400}
           onBoundsChanged={(newData) => this.onMapEvent(newData)}
           minZoom={MIN_ZOOM}
           maxZoom={MAX_ZOOM}
           onClick={(event) => this.props.onCoordsChange(event.latLng)}
         >
-          <Marker anchor={coordinates} payload={1} />
-
           <Circle centerCoords={coordinates} radius={this.calcRadius()} />
+          <Marker anchor={coordinates} payload={1} />
         </Map>
+
+        <div className="map__buttons">
+          {'geolocation' in navigator && (
+            <Button type="primary" size="large" onClick={() => this.findLocation()}>
+              <Icon type="environment" />
+              { acquiredLocation ? 'Find me again' : 'Find my location' }
+            </Button>
+          )}
+
+          <Button.Group size="large">
+            <Button type="primary" onClick={() => this.changeZoom(-1)}>
+              <Icon type="zoom-out" />
+              Zoom out
+            </Button>
+            <Button type="primary" onClick={() => this.changeZoom(1)}>
+             <Icon type="zoom-in" />
+              Zoom in
+            </Button>
+          </Button.Group>
+        </div>
       </div>
     );
   }

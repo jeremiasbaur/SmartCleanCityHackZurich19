@@ -1,3 +1,7 @@
+.box {
+    margin-top: 24px;
+}
+
 .btn:link,
 .btn:visited{
     text-decoration: none;
@@ -14,6 +18,10 @@
 .btn-white{
     background:#fff;
     color:#000;
+}
+
+.btn-white h1 {
+    margin-bottom: 0;
 }
 
 .btn:hover{

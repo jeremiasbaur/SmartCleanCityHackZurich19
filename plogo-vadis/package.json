@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.23.4",
     "pigeon-maps": "^0.14.0",
     "pigeon-marker": "^0.3.4",
     "pigeon-overlay": "^0.2.3",

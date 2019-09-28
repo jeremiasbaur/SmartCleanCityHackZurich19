@@ -4,16 +4,16 @@ import MainPage from './Pages/Main/';
 import MapPage from './Pages/Map/';
 import RouteVerification from './Components/RouteVerification';
 
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './App.css';
+import { PageHeader } from 'antd';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <h1>Plogo Vadis?</h1>
-        </header>
-
+        <PageHeader title="Plogo Vadis?" />
+        
         <main className="main-container">
           <Switch>
             <Route path="/go">

@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 import { LOCALSTORAGE_KEY_UNVERIFIED_ROUTES } from '../../Components/RouteVerification';
 
+import { Spin } from 'antd';
+
 const BACKEND_URL = 'http://fakerestapi.azurewebsites.net';
 const CLEANLINESS_LEVELS =  [
   'very dirty. Bring a wheelbarrow!',
@@ -105,7 +107,7 @@ class MapPage extends PureComponent {
           <h1>Get ready!</h1>
 
           { isLoadingRoute && (
-            <p>Loading route...</p>
+            <Spin />
           )}
           
           { !isLoadingRoute && (

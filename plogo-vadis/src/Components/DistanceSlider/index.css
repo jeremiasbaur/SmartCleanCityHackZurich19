@@ -1,4 +1,4 @@
-.distance-slider {
-    max-width: 1024px;
-    margin: 42px auto;
+/* Get rid of FF's outline */
+.distance-slider * {
+    outline: none;
 }

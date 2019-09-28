@@ -1,4 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
+import { List, Button, Card } from 'antd';
 
 export const LOCALSTORAGE_KEY_UNVERIFIED_ROUTES = 'plogo-vadis.unverified-routes';
 
@@ -34,19 +35,21 @@ class RouteVerification extends PureComponent {
         }
 
         return (
-            <Fragment>
-                <hr />
+            <Card style={{"marginTop": "24px", "marginBottom": "24px"}}>
                 <p>Hey, you've been on these routes before, care to quickly give some feedback?</p>
-                <ul>
-                    {routes.map(route => 
+                <List
+                    itemLayout="horizontal"
+                    style={{"textAlign": "left"}}
+                    dataSource={routes}
+                    renderItem={route => (
                         <UnverifiedRoute
                             key={route.confirmed}
                             route={route}
                             onDismissRoute={() => this.removeUnverifiedRoute(route)}
                         />
                     )}
-                </ul>
-            </Fragment>
+                />
+            </Card>
         );
     }
 }
@@ -56,13 +59,15 @@ class UnverifiedRoute extends PureComponent {
         const { route, onDismissRoute = () => {} } = this.props;
 
         return (
-            <li>
-                <p>A nice route. How was it?</p>
-                <button>Too dirty!</button>
-                <button>Just right</button>
-                <button>Cleaner than expected</button>
-                <button onClick={() => onDismissRoute(route)}>Dismiss</button>
-            </li>
+            <List.Item>
+                <List.Item.Meta
+                    title="A nice route"
+                    description="How was the route you did yesterday?"
+                />
+                <div>
+                    <Button type="link" onClick={() => onDismissRoute(route)}>Dismiss</Button>
+                </div>
+            </List.Item>
         );
     }
 }

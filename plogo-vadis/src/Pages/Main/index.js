@@ -1,11 +1,14 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import DistanceSlider from '../../Components/DistanceSlider';
+import { Card } from 'antd';
 
 import './index.css';
 
 import PlogMap, { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 
+const CARD_STYLE = {"marginBottom": "24px"};
+const CARD_HEAD_STYLE = {"fontSize": "24px", "lineHeight": "1"};
 
 class MainPage extends PureComponent {
 
@@ -30,19 +33,20 @@ class MainPage extends PureComponent {
 
     return (
         <div>
-            <h3>Where are you?</h3>
+            <Card style={CARD_STYLE} headStyle={CARD_HEAD_STYLE} title="Where are you?">
+                <PlogMap
+                    coordinates={coordinates}
+                    distance={distance}
+                    onCoordsChange={(newCoordinates) => this.setState({coordinates: newCoordinates})}
+                />
+            </Card>
 
-            <PlogMap
-                coordinates={coordinates}
-                distance={distance}
-                onCoordsChange={(newCoordinates) => this.setState({coordinates: newCoordinates})}
-            />
-
-
-            <h3>How far would you like to run today?</h3>
-            <DistanceSlider distance={distance} onDistanceChange={(newDistance) => this.setState({distance: newDistance})} />
+            <Card style={CARD_STYLE} headStyle={CARD_HEAD_STYLE} title="How far would you like to run today?">
+                <DistanceSlider distance={distance} onDistanceChange={(newDistance) => this.setState({distance: newDistance})} />
+            </Card>
 
             <div className="box">
+                <h1>
                 <Link
                     className="btn btn-white btn-animation-1"
                     to={{
@@ -54,13 +58,13 @@ class MainPage extends PureComponent {
                         }
                     }}
                 >Go!</Link>
+                </h1>
             </div>
 
             { firstTimeVisitor && (
-                <Fragment>
-                    <h2>What is Plogging?</h2>
+                <Card style={CARD_STYLE} headStyle={CARD_HEAD_STYLE} title="What is Plogging?">
                     <p>Plogging is a combination of jogging with picking up litter (Swedish: plocka upp). It started as an organised activity in Sweden around 2016 and spread to other countries in 2018, following increased concern about plastic pollution. As a workout, it provides variation in body movements by adding bending, squatting and stretching to the main action of running, hiking, or walking.</p>
-                </Fragment>
+                </Card>
             )}
         </div>
     );
