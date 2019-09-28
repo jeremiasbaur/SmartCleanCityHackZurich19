@@ -72,3 +72,7 @@
         transform:translateY(0);
     }
 }
+
+div.ant-card-head-title {
+    white-space: normal;
+}
