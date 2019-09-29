@@ -97,13 +97,23 @@ class MapPage extends PureComponent {
         .then(response => response.json())
         .then(data => {
           console.log(data);
+
           this.setState({
-            route: data.route ? data.route : null,
-            expectedCleanliness: data.cci = data.cci ? data.cci : Math.random()*5
+            route: data.route,
+            expectedCleanliness: data.cci,
+            isLoadingRoute: false
           });
         })
-        .catch((e) => console.error(e))
-        .finally(() => this.setState({ isLoadingRoute: false }));
+        .catch((e) => {
+          console.error(e);
+
+          // Fake it all when there's no backend
+          this.setState({
+            route: createFakeRoute([latitude, longitude]),
+            expectedCleanliness: Math.random()*5,
+            isLoadingRoute: false
+          });
+        });
     })
   }
 
@@ -150,12 +160,10 @@ class MapPage extends PureComponent {
     const { latitude, longitude } = this.getParameters();
     const {
       isLoadingRoute,
-      //route,
+      route,
       expectedCleanliness,
       routeAccepted
     } = this.state;
-
-    const route = createFakeRoute([latitude, longitude]);
 
     return (
         <Fragment>
