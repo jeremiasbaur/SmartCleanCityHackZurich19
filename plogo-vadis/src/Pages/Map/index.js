@@ -2,14 +2,14 @@ import React, {PureComponent, Fragment} from 'react';
 import { withRouter } from 'react-router-dom';
 import Map from 'pigeon-maps';
 import Marker from 'pigeon-marker';
-import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
+import { BASEL_COORDS } from '../../Components/PlogMap';
 import { LOCALSTORAGE_KEY_UNVERIFIED_ROUTES } from '../../Components/RouteVerification';
 
 import { Spin, Card, Button, Icon, Alert } from 'antd';
 
 import { CARD_STYLE, CARD_HEAD_STYLE } from '../Main';
 
-const BACKEND_URL = 'http://fakerestapi.azurewebsites.net';
+const BACKEND_URL = 'https://plogo-vadis.herokuapp.com/plog';
 const CLEANLINESS_LEVELS =  [
   'very dirty',
   'quite dirty',
@@ -48,11 +48,15 @@ const Line = ({ mapState: { width, height }, latLngToPixel, coordsArray, style =
     return null
   }
 
+  let customLngToPixel = (coordsObject) => {
+    return latLngToPixel([coordsObject.lat, coordsObject.long]);
+  }
+
   let lines = []
-  let pixel = latLngToPixel(coordsArray[0])
+  let pixel = customLngToPixel(coordsArray[0])
 
   for (let i = 1; i < coordsArray.length; i++) {
-    let pixel2 = latLngToPixel(coordsArray[i])
+    let pixel2 = customLngToPixel(coordsArray[i])
     lines.push(<line key={i} x1={pixel[0]} y1={pixel[1]} x2={pixel2[0]} y2={pixel2[1]} style={style} />)
     pixel = pixel2
   }
@@ -94,14 +98,30 @@ class MapPage extends PureComponent {
       isLoadingRoute: true,
       routeAccepted: false
     }, () => {
-      fetch(BACKEND_URL + `?distance=${ distance }&long=${ longitude }&lat=${ latitude }&refresh=${ refresh }`)
+      fetch(BACKEND_URL + `?distance=${ distance }&long=${ longitude }&lat=${ latitude }`)
         .then(response => response.json())
         .then(data => {
           console.log(data);
 
+          let averageCCI = 0;
+          let counter = 0;
+          
+          data.coordinates.forEach(coords => {
+            if (coords.cci) {
+              counter++;
+              averageCCI+= coords.cci;
+            }
+          });
+
+          if (counter > 0) {
+            averageCCI /= counter;
+          }
+
+          console.log(averageCCI, counter);
+
           this.setState({
-            route: data.route,
-            expectedCleanliness: data.cci,
+            route: data.coordinates,
+            expectedCleanliness: averageCCI,
             isLoadingRoute: false
           });
         })
@@ -122,8 +142,8 @@ class MapPage extends PureComponent {
     // get chosen parameters from previous page via props.location or use default value
     let parameters = {
       distance: 1,
-      latitude: TECHNOPARK_COORDS[0],
-      longitude: TECHNOPARK_COORDS[1]
+      latitude: BASEL_COORDS[0],
+      longitude: BASEL_COORDS[1]
     };
 
     if (this.props && this.props.location && this.props.location.state) {

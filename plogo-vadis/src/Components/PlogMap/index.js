@@ -8,6 +8,7 @@ import 'react-rangeslider/lib/index.css'
 import './index.css';
 
 export const TECHNOPARK_COORDS = [47.389274, 8.51553];
+export const BASEL_COORDS = [ 47.554484, 7.594161 ];
 const MAX_ZOOM = 18;
 const MIN_ZOOM = 1;
 const DEFAULT_ZOOM = 12;
@@ -46,7 +47,9 @@ class PlogMap extends PureComponent {
     const { onCoordsChange = () => {}} = this.props;
 
     navigator.geolocation.getCurrentPosition((position) => {
-      onCoordsChange([position.coords.latitude, position.coords.longitude]);
+      // we only have data for basel, so you're in basel now. Sorry.
+      onCoordsChange(BASEL_COORDS);
+      //onCoordsChange([position.coords.latitude, position.coords.longitude]);
 
       this.setState({
         acquiredLocation: true
@@ -87,7 +90,7 @@ class PlogMap extends PureComponent {
 
     const earthCircumference = 40075.016686;
     // for some reason using the actual coordinates gets very weird real quick - use hardcoded coordinates for now
-    const Stile = earthCircumference * Math.cos(toDegrees(TECHNOPARK_COORDS[0])) / Math.pow(2, zoomLevel);
+    const Stile = earthCircumference * Math.cos(toDegrees(BASEL_COORDS[0])) / Math.pow(2, zoomLevel);
 
     // distance per pixel in KM
     const distPerPx = Stile / 256;
