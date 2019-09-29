@@ -5,7 +5,7 @@ import Marker from 'pigeon-marker';
 import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 import { LOCALSTORAGE_KEY_UNVERIFIED_ROUTES } from '../../Components/RouteVerification';
 
-import { Spin, Card, Button } from 'antd';
+import { Spin, Card, Button, Icon, Alert } from 'antd';
 
 import { CARD_STYLE, CARD_HEAD_STYLE } from '../Main';
 
@@ -73,7 +73,8 @@ class MapPage extends PureComponent {
       isLoadingRoute: false,
       routeAccepted: false,
       route: null,
-      expectedCleanliness: null
+      expectedCleanliness: null,
+      showingHint: false
     }
   }
 
@@ -97,13 +98,23 @@ class MapPage extends PureComponent {
         .then(response => response.json())
         .then(data => {
           console.log(data);
+
           this.setState({
-            route: data.route ? data.route : null,
-            expectedCleanliness: data.cci = data.cci ? data.cci : Math.random()*5
+            route: data.route,
+            expectedCleanliness: data.cci,
+            isLoadingRoute: false
           });
         })
-        .catch((e) => console.error(e))
-        .finally(() => this.setState({ isLoadingRoute: false }));
+        .catch((e) => {
+          console.error(e);
+
+          // Fake it all when there's no backend
+          this.setState({
+            route: createFakeRoute([latitude, longitude]),
+            expectedCleanliness: Math.random()*5,
+            isLoadingRoute: false
+          });
+        });
     })
   }
 
@@ -150,12 +161,11 @@ class MapPage extends PureComponent {
     const { latitude, longitude } = this.getParameters();
     const {
       isLoadingRoute,
-      //route,
+      route,
       expectedCleanliness,
-      routeAccepted
+      routeAccepted,
+      showingHint
     } = this.state;
-
-    const route = createFakeRoute([latitude, longitude]);
 
     return (
         <Fragment>
@@ -187,7 +197,32 @@ class MapPage extends PureComponent {
                 )}
 
                 {routeAccepted && (
-                  <p>Go forth and clean this wretched place!</p>
+                  <Fragment>
+                    <p style={{"fontWeight": "bold"}}>Now go forth and clean this wretched place!</p>
+                    <div className="map__buttons">
+                      <Button type="default" onClick={() => this.setState({showingHint: true})}>
+                        <Icon type="export" />
+                        Export to Komoot
+                      </Button>
+                      <Button type="default" onClick={() => this.setState({showingHint: true})}>
+                        <Icon type="export" />
+                        Export as KLM 
+                      </Button>
+                      <Button type="default" onClick={() => this.setState({showingHint: true})}>
+                        <Icon type="smile" />
+                        Tell a friend 
+                      </Button>
+                    </div>
+                    { showingHint && (
+                      <Alert
+                        style={{"marginTop": "16px"}}
+                        message="Sorry, that's a post-hackday feature :)"
+                        type="info"
+                        closable
+                        onClose={() => this.setState({showingHint: false})}
+                      />
+                    )}
+                  </Fragment>
                 )}
               </Card>
 
