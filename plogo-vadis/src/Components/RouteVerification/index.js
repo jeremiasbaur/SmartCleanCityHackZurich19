@@ -1,7 +1,18 @@
 import React, { PureComponent } from 'react';
-import { List, Button, Card } from 'antd';
+import { List, Button, Card, Avatar, Alert } from 'antd';
 
 export const LOCALSTORAGE_KEY_UNVERIFIED_ROUTES = 'plogo-vadis.unverified-routes';
+const ROUTE_TITLES = [
+    "A nice route",
+    "Cleanup extravaganza",
+    "Plogging galore",
+    "Prelude to a relaxing session",
+    "A short hike",
+    "A route so nice you should take it twice",
+    "The one with the flowers on the side of the street",
+    "Hopefully cleaner now",
+    "The best one yet"
+];
 
 class RouteVerification extends PureComponent {
     constructor(props) {
@@ -13,7 +24,8 @@ class RouteVerification extends PureComponent {
         }
 
         this.state = {
-            routes: routes
+            routes: routes,
+            showingHint: false
         };
     }
 
@@ -27,8 +39,14 @@ class RouteVerification extends PureComponent {
         });
     }
 
+    verifyRoute(routeToVerify) {
+        this.setState({
+            showingHint: true
+        });
+    }
+
     render() {
-        const { routes } = this.state;
+        const { routes, showingHint } = this.state;
 
         if (routes.length === 0) {
             return null;
@@ -36,7 +54,16 @@ class RouteVerification extends PureComponent {
 
         return (
             <Card style={{"marginTop": "24px", "marginBottom": "24px"}}>
-                <p>Hey, you've been on these routes before, care to quickly give some feedback?</p>
+                <p>Hey, you've been on { routes.length > 1 ? 'these routes' : 'this route' } before, care to quickly give some feedback?</p>
+                { showingHint && (
+                    <Alert
+                    style={{"marginTop": "16px"}}
+                    message="Sorry, that's a post-hackday feature :)"
+                    type="info"
+                    closable
+                    onClose={() => this.setState({showingHint: false})}
+                    />
+                )}
                 <List
                     itemLayout="horizontal"
                     style={{"textAlign": "left"}}
@@ -46,6 +73,7 @@ class RouteVerification extends PureComponent {
                             key={route.confirmed}
                             route={route}
                             onDismissRoute={() => this.removeUnverifiedRoute(route)}
+                            onVerifyRoute={() => this.verifyRoute(route)}
                         />
                     )}
                 />
@@ -56,15 +84,24 @@ class RouteVerification extends PureComponent {
 
 class UnverifiedRoute extends PureComponent {
     render () {
-        const { route, onDismissRoute = () => {} } = this.props;
+        const {
+            route,
+            onDismissRoute = () => {},
+            onVerifyRoute = () => {}
+        } = this.props;
+
+        const randomDate = new Date(+(new Date()) - Math.floor(Math.random()*10000000000));
+        const dateString = randomDate.toLocaleDateString("de-CH")
 
         return (
             <List.Item>
                 <List.Item.Meta
-                    title="A nice route"
-                    description="How was the route you did yesterday?"
+                    title={ ROUTE_TITLES[Math.floor(Math.random() * ROUTE_TITLES.length - 1)] }
+                    avatar={<Avatar src="https://picsum.photos/100/100" />}
+                    description={`How was it? (${dateString})`}
                 />
                 <div>
+                    <Button type="link" onClick={() => onVerifyRoute(route)}>Tell us about it</Button>
                     <Button type="link" onClick={() => onDismissRoute(route)}>Dismiss</Button>
                 </div>
             </List.Item>
