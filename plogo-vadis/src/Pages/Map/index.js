@@ -5,7 +5,7 @@ import Marker from 'pigeon-marker';
 import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 import { LOCALSTORAGE_KEY_UNVERIFIED_ROUTES } from '../../Components/RouteVerification';
 
-import { Spin, Card, Button, Icon } from 'antd';
+import { Spin, Card, Button, Icon, Alert } from 'antd';
 
 import { CARD_STYLE, CARD_HEAD_STYLE } from '../Main';
 
@@ -73,7 +73,8 @@ class MapPage extends PureComponent {
       isLoadingRoute: false,
       routeAccepted: false,
       route: null,
-      expectedCleanliness: null
+      expectedCleanliness: null,
+      showingHint: false
     }
   }
 
@@ -162,7 +163,8 @@ class MapPage extends PureComponent {
       isLoadingRoute,
       route,
       expectedCleanliness,
-      routeAccepted
+      routeAccepted,
+      showingHint
     } = this.state;
 
     return (
@@ -198,19 +200,28 @@ class MapPage extends PureComponent {
                   <Fragment>
                     <p style={{"fontWeight": "bold"}}>Now go forth and clean this wretched place!</p>
                     <div className="map__buttons">
-                      <Button type="default">
+                      <Button type="default" onClick={() => this.setState({showingHint: true})}>
                         <Icon type="export" />
                         Export to Komoot
                       </Button>
-                      <Button type="default">
+                      <Button type="default" onClick={() => this.setState({showingHint: true})}>
                         <Icon type="export" />
                         Export as KLM 
                       </Button>
-                      <Button type="default">
+                      <Button type="default" onClick={() => this.setState({showingHint: true})}>
                         <Icon type="smile" />
                         Tell a friend 
                       </Button>
                     </div>
+                    { showingHint && (
+                      <Alert
+                        style={{"marginTop": "16px"}}
+                        message="Sorry, that's a post-hackday feature :)"
+                        type="info"
+                        closable
+                        onClose={() => this.setState({showingHint: false})}
+                      />
+                    )}
                   </Fragment>
                 )}
               </Card>
