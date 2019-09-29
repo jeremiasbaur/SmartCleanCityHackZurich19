@@ -4,6 +4,7 @@
 Plogging means picking up litter while jogging. It may sound weird, but since you're jogging anyway, why not get rid of some trash and make the city a tiny bit nicer? And you'll be doing some stretching and squats in addition to the cardio!
 
 ![Plogging Plogging Plogging](https://github.com/jeremiasbaur/SmartCleanCityHackZurich19/blob/master/pics/gallery.jpg)
+
 *Choose your location and how far you want to plog - we'll suggest a route through some dirty streets around you!*
 
 # What it does? 
