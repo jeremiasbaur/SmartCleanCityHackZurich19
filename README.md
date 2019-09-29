@@ -20,3 +20,21 @@ Three-pronged approach:
 
 * Website/Web-App where users can enter from where and how far they want to "plog"
 * Backend which queries the predictions and figures out a route that's not too clean but also not too dirty - the ratio of jogging to picking up litter should still be enjoyable.
+
+
+# How to run
+
+## Frontend
+
+* `git clone git@github.com:jeremiasbaur/SmartCleanCityHackZurich19.git`
+* `cd plogo-vadis`
+* `npm install`
+* `npm start`
+* optionally, change BACKEND_URL in `src/Pages/Map/index.js`
+
+## Backend
+
+* `git clone git@github.com:jeremiasbaur/SmartCleanCityHackZurich19.git`
+* `pip3 install -r requirements.txt`
+* upon first run: `python create_db.py`
+* `python app.py`
