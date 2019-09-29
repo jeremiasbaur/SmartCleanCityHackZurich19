@@ -6,7 +6,7 @@ class Config(object):
     MAPBOX_APIKEY = 'pk.eyJ1IjoiamVyZW1pYXNiYXVyIiwiYSI6ImNrMTN1eHlsNzBjZmgzaXBmenVzcGJ1OWsifQ.y6DlXuUGKtqeV1cuQWGUGQ'
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgres://hadock@bucher-db-hz19:pkz6VHVEFPUWEN9@bucher-db-hz19.postgres.database.azure.com:5432/hz19'
+    SQLALCHEMY_DATABASE_URI = ''
 
 class DevelopmentConfig(Config):
     DEBUG = True

@@ -5,6 +5,7 @@ from configmodule import ProductionConfig, DevelopmentConfig, TestingConfig
 
 from mapbox import Directions
 
+import os
 import math
 import random
 import datetime
@@ -15,6 +16,7 @@ from copy import deepcopy
 app = Flask(__name__)
 app.config.from_object(ProductionConfig())
 
+service = Directions(access_token=DevelopmentConfig().MAPBOX_APIKEY)
 db = SQLAlchemy(app)
 
 import models
@@ -193,5 +195,5 @@ def analysis():
 
 if __name__ == '__main__':
     #analysis()
-    service = Directions(access_token=DevelopmentConfig().MAPBOX_APIKEY)
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
