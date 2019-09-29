@@ -90,7 +90,7 @@ class PlogMap extends PureComponent {
 
     const earthCircumference = 40075.016686;
     // for some reason using the actual coordinates gets very weird real quick - use hardcoded coordinates for now
-    const Stile = earthCircumference * Math.cos(toDegrees(BASEL_COORDS[0])) / Math.pow(2, zoomLevel);
+    const Stile = earthCircumference * Math.cos(toDegrees(TECHNOPARK_COORDS[0])) / Math.pow(2, zoomLevel);
 
     // distance per pixel in KM
     const distPerPx = Stile / 256;
