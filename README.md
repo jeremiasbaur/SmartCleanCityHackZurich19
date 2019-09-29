@@ -1,5 +1,7 @@
 # SmartCleanCityHackZurich19
 
+Demo: https://plogo-vadis.firebaseapp.com/
+
 # Inspiration
 *Plogging* means picking up litter while jogging. It may sound weird, but since you're jogging anyway, why not get rid of some trash and make the city a tiny bit nicer? And you'll be doing some stretching and squats in addition to the cardio!
 
