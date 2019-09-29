@@ -4,12 +4,14 @@ import datetime
 from app import db
 from models import GeoInfo, CleanCityIndex
 
+
 def try_parse_int(string_to_int):
     # I thought there was a problem with nan values but in the end it was biginteger.. python...
     try:
         return int(string_to_int)
     except ValueError:
         return None
+
 
 def parse_geo_info():
     for index, row in geoinfo.iterrows():

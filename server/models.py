@@ -1,6 +1,7 @@
 from app import db
 from geoalchemy2 import Geometry
 
+import datetime
 
 class Plog(db.Model):
     __tablename__ = 'plog'
@@ -10,9 +11,8 @@ class Plog(db.Model):
     start = db.Column(Geometry('POINT'), nullable=False)
     radius = db.Column(db.Float, nullable=False)
 
-
     # route
-
+    linestring = db.Column(Geometry('LINESTRING'))
 
     # done
 
@@ -21,7 +21,6 @@ class Plog(db.Model):
 
 
     #date
-
 
 
 class GeoInfo(db.Model):
@@ -70,6 +69,8 @@ class CleanCityIndex(db.Model):
     rateGrits = db.Column(db.Float)
     rateGlassDebris = db.Column(db.Float)
 
+    def __repr__(self):
+        return f'CCI id: {self.id} geo_info_id: {self.geo_info_id} cci: {self.cci} date: {self.date}'
 
 class CleanCityIndexPrediction(db.Model):
     """
