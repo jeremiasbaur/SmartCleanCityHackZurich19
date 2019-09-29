@@ -1,1 +1,18 @@
 # SmartCleanCityHackZurich19
+
+# Inspiration
+Plogging means picking up litter while jogging. It may sound weird, but since you're jogging anyway, why not get rid of some trash and make the city a tiny bit nicer? And you'll be doing some stretching and squats in addition to the cardio!
+
+# What it does? 
+Based on historical data Plogo Vadis tries to predict the cleanliness of the streets around you and it'll generate a route of your desired length along the dirtier parts of your area.
+
+# How we built it?
+Three-pronged approach:
+
+* Create a model to predict the cleanliness for a given street junction from:
+	- Bucher-provided street dirtyness data
+	- frequency of Twitter mentions for a given street or landmark to estimate its human traffic and pollution
+	- MeteoMatics temperature and precipitation forecasts for a give date-time
+
+* Website/Web-App where users can enter from where and how far they want to "plog"
+* Backend which queries the predictions and figures out a route that's not too clean but also not too dirty - the ratio of jogging to picking up litter should still be enjoyable.
