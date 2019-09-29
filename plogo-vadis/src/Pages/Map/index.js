@@ -5,7 +5,7 @@ import Marker from 'pigeon-marker';
 import { TECHNOPARK_COORDS } from '../../Components/PlogMap';
 import { LOCALSTORAGE_KEY_UNVERIFIED_ROUTES } from '../../Components/RouteVerification';
 
-import { Spin, Card, Button } from 'antd';
+import { Spin, Card, Button, Icon } from 'antd';
 
 import { CARD_STYLE, CARD_HEAD_STYLE } from '../Main';
 
@@ -195,7 +195,23 @@ class MapPage extends PureComponent {
                 )}
 
                 {routeAccepted && (
-                  <p>Go forth and clean this wretched place!</p>
+                  <Fragment>
+                    <p style={{"fontWeight": "bold"}}>Now go forth and clean this wretched place!</p>
+                    <div className="map__buttons">
+                      <Button type="default">
+                        <Icon type="export" />
+                        Export to Komoot
+                      </Button>
+                      <Button type="default">
+                        <Icon type="export" />
+                        Export as KLM 
+                      </Button>
+                      <Button type="default">
+                        <Icon type="smile" />
+                        Tell a friend 
+                      </Button>
+                    </div>
+                  </Fragment>
                 )}
               </Card>
 
