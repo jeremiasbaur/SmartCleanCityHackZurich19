@@ -29,8 +29,6 @@ class MainPage extends PureComponent {
         coordinates,
     } = this.state;
 
-    console.log("coordinates:", coordinates);
-
     return (
         <div>
             <Card style={CARD_STYLE} headStyle={CARD_HEAD_STYLE} title="Where are you?">

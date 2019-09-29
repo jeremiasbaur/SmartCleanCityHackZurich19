@@ -100,8 +100,7 @@ class MapPage extends PureComponent {
       fetch(BACKEND_URL + `?distance=${ distance }&long=${ longitude }&lat=${ latitude }`)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
-
+          // calculate Clean City Index (not all streets have a value)
           let averageCCI = 0;
           let counter = 0;
           
@@ -115,8 +114,6 @@ class MapPage extends PureComponent {
           if (counter > 0) {
             averageCCI /= counter;
           }
-
-          console.log(averageCCI, counter);
 
           this.setState({
             route: data.coordinates,
@@ -144,8 +141,6 @@ class MapPage extends PureComponent {
       latitude: BASEL_COORDS[0],
       longitude: BASEL_COORDS[1]
     };
-
-    debugger;
 
     if (this.props && this.props.location && this.props.location.state) {
       const { distance, latitude = parameters.latitude, longitude = parameters.longitude } = this.props.location.state;
