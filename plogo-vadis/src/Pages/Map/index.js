@@ -187,6 +187,9 @@ class MapPage extends PureComponent {
       showingHint
     } = this.state;
 
+    // adjust cleanliness expectations for demo purposes.
+    let adjustedExpectations = expectedCleanliness > 3 ? expectedCleanliness - .6 : expectedCleanliness;
+
     return (
         <Fragment>
           { isLoadingRoute && (
@@ -207,7 +210,7 @@ class MapPage extends PureComponent {
                   <Line coordsArray={route} />
                 </Map>
               
-                <p style={{"marginTop": "8px", "marginBottom": "16px"}}>We expect the route to be <span style={{"fontWeight": "bold"}}>{CLEANLINESS_LEVELS[Math.floor(expectedCleanliness)]}</span>. {CLEANLINESS_LEVEL_ADDITIONAL_BLURB[Math.floor(expectedCleanliness)]}</p>
+                <p style={{"marginTop": "8px", "marginBottom": "16px"}}>We expect the route to be <span style={{"fontWeight": "bold"}}>{CLEANLINESS_LEVELS[Math.floor(adjustedExpectations)]}</span>. {CLEANLINESS_LEVEL_ADDITIONAL_BLURB[Math.floor(adjustedExpectations)]}</p>
 
                 {!routeAccepted && (
                   <div className="map__buttons">
