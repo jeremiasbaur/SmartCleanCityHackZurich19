@@ -18,10 +18,6 @@ Three-pronged approach:
 	- **Bucher**-provided street dirtyness data
 	- **NLP** analysis of **Twitter** mentions for a given street or landmark to estimate its human traffic and pollution
 	- **MeteoMatics** temperature and precipitation forecasts for a give date-time
-
-* Website/Web-App where users can enter from where and how far they want to "plog"
-* Backend which queries the predictions and figures out a route that's not too clean but also not too dirty - the ratio of jogging to picking up litter should still be enjoyable.
-
 * Website/Web-App where users can enter **from where** and **how far** they want to "plog"
 * Backend which *queries the predictions* and figures out a route that's not too clean but also not too dirty - the **ratio of jogging to picking up litter** should still be enjoyable.
 
