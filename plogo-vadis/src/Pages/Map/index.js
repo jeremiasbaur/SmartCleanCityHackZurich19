@@ -92,7 +92,6 @@ class MapPage extends PureComponent {
       latitude,
       longitude
     } = this.getParameters();
-    const { refresh = false } = options;
 
     this.setState({
       isLoadingRoute: true,
@@ -145,6 +144,8 @@ class MapPage extends PureComponent {
       latitude: BASEL_COORDS[0],
       longitude: BASEL_COORDS[1]
     };
+
+    debugger;
 
     if (this.props && this.props.location && this.props.location.state) {
       const { distance, latitude = parameters.latitude, longitude = parameters.longitude } = this.props.location.state;

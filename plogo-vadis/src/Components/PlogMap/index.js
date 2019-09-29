@@ -79,11 +79,8 @@ class PlogMap extends PureComponent {
   }
 
   calcRadius() {
-    const {
-      distance = 1,
-      coordinates
-    } = this.props;
-    const { zoomLevel} = this.state;
+    const { distance = 1 } = this.props;
+    const { zoomLevel}  = this.state;
     const toDegrees = (angle) => {
       return angle * (180 / Math.PI);
     };

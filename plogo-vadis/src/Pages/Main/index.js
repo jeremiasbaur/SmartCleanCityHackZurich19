@@ -29,6 +29,8 @@ class MainPage extends PureComponent {
         coordinates,
     } = this.state;
 
+    console.log("coordinates:", coordinates);
+
     return (
         <div>
             <Card style={CARD_STYLE} headStyle={CARD_HEAD_STYLE} title="Where are you?">
@@ -51,8 +53,8 @@ class MainPage extends PureComponent {
                             pathname: '/go',
                             state: {
                                 distance: distance,
-                                lat: coordinates[0],
-                                long: [1]
+                                latitude: coordinates[0],
+                                longitude: coordinates[1]
                             }
                         }}
                     >Go!</Link>
