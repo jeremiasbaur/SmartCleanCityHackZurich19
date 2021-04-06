@@ -33,12 +33,12 @@ const createFakeRoute = (coordinates) => {
       
 
   const nrOfCoordinates = Math.floor(Math.random()*20 + 3);
-  let route = [coordinates];
+  let route = [{lat: coordinates[0], long: coordinates[1]}];
 
   for(let i = 0; i < nrOfCoordinates; i++) {
-    route.push([jiggle(coordinates[0], 15000), jiggle(coordinates[1], 3000)]);
+    route.push({lat: jiggle(coordinates[0], 15000), long: jiggle(coordinates[1], 3000)});
   }
-  route.push(coordinates);
+  route.push(route[0]);
 
   return route;
 };
